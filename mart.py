@@ -65,16 +65,19 @@ def generate_bill(data):
             continue
 
         qty = int(input("Enter quantity: "))
+         # Convert JSON values to numeric
+        unit_price = float(data[item]["price"])
+        available_qty = int(data[item]["qty"])
 
         if qty > data[item]["qty"]:
             print("Not enough stock!")
             continue
 
-        price = data[item]["price"] * qty
-        return cart_total += price
+        price = unit_price * qty
+        cart_total = cart_total + price
 
         # Reduce the store quantity
-        data[item]["qty"] -= qty
+        data[item]["qty"] = available_qty - qty
         save_data(data)
 
         print(f"Added to bill: Rs. {price}")
